@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
 import ContactUs from '../views/ContactUs.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Store from '../views/StoreLocations.vue'
 
 
 const router = createRouter({
@@ -12,6 +13,7 @@ const router = createRouter({
     { path: '/products', name: 'products',  component: Products },
     { path: '/contact-us', name: 'contactUs', component: ContactUs },
     { path: '/dashboard', name: 'dashboard', component: Dashboard },
+    { path: '/locations', name: 'store', component: Store },
     // {
     //   path: '/about',
     //   name: 'about',

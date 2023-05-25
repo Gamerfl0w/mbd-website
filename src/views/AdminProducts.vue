@@ -53,13 +53,38 @@
         </td>
         <td class="px-6 py-4">
           <div class="flex justify-end gap-1">
-            <div>
-              <v-btn @click="deleteProduct(product._id)" icon="mdi-trash-can" variant="plain">
+
+            <div class="flex justify-center items-center">
+
+              <v-col cols="auto">
+      <v-dialog
+        transition="dialog-bottom-transition"
+        width="auto"
+      >
+        <template v-slot:activator="{ props }">
+          <div>
+              <v-btn v-bind="props" icon="mdi-trash-can" variant="plain">
               </v-btn>
             </div>
-
+        </template>
+        <template v-slot:default="{ isActive }">
+          <v-card>
+            <v-toolbar color="red" title="Delete Product"></v-toolbar>
+            <v-card-text class="text-center">
+              <p class="text-xl">Are you sure you want to delete <br><span class="font-bold">{{ product.name }}</span>?</p>
+              <p class="text-xl pa-10">This action is irreversible.</p>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn @click="isActive.value = false, deleteProduct(product._id)">Delete</v-btn>
+              <v-btn @click="isActive.value = false">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
+    </v-col>
             <v-btn @click="editProduct(product._id, product.name, product.price)" icon="mdi-pencil" variant="plain">
             </v-btn>
+            </div>
           </div>
         </td>
       </tr>

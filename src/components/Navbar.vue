@@ -6,9 +6,9 @@
           <ul class="flex gap-10 text-xl">
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/">Home</router-link>
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/products">Products</router-link>
+            <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="locations">Store Locations</router-link>
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/contact-us">Contact Us</router-link>
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="">About Us</router-link>
-            <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/"></router-link>
           </ul>
          </div>
       </div>
