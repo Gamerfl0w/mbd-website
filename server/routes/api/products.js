@@ -1,8 +1,26 @@
 const express = require('express');
 const mongodb = require('mongodb');
-require('dotenv').config();
+require('dotenv').config();  
 
 const router = express.Router();
+
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads"), // cb -> callback
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(file.originalname)}`;
+    cb(null, uniqueName);
+  },
+});
+
+const handleMultipartData = multer({
+  storage,
+  limits: { fileSize: 1000000 * 5 },
+}).single("image");
 
 // Get Products
 router.get('/', async (req, res) => {
@@ -10,15 +28,26 @@ router.get('/', async (req, res) => {
     res.send(await products.find({}).toArray());
 });
 
-// Add Products
+// Add Product
 router.post('/', async (req, res) => {
     const products = await loadProductsCollection();
-    await products.insertOne({
-        name: req.body.name,
-        price: req.body.price,
-        createdAt: new Date() 
+    handleMultipartData(req, res, async (err) => {
+      if (err) {
+        res.json({ msgs: err.message });
+      }else{
+        await products.insertOne({
+          name: req.body.name,
+          price: req.body.price,
+          image: req.file,
+          createdAt: new Date() 
+        });    
+          res.status(201).send();
+      }
+  
     });
-    res.status(201).send();
+
+    // products.deleteMany({})
+    
 });
 
 router.put('/update-product/:id', async (req, res) => {

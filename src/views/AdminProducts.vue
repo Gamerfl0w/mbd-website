@@ -32,13 +32,7 @@
     <tbody v-for="product in products" :key="product._id" class="divide-y divide-gray-100 border-t border-gray-100">
       <tr class="hover:bg-gray-50">
         <th class="flex items-center gap-3 px-6 py-4 font-normal text-gray-900">
-          <div class="relative h-16 w-16 text-4xl">
-            <v-icon
-              class="h-full w-full rounded-2xl object-cover object-center"
-              icon="mdi-hammer-screwdriver"
-              alt="">
-            </v-icon>
-          </div>
+          <div class="relative h-16 w-16 text-4xl bg-center bg-cover rounded-lg" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
           <div>
             <div class="font-medium text-gray-700 text-2xl">{{ product.name }}</div>
           </div>
@@ -92,6 +86,7 @@
   </table>
 </div>
 
+
 <!-- Add Product Modal -->
 <v-row justify="center">
     <v-dialog
@@ -106,6 +101,9 @@
         <v-card-text>
           <v-container>
             <v-row>
+              <v-col cols="12">
+                <input type="file" ref="image" @change="onChange" name="image">
+              </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Product Name*"
@@ -146,6 +144,7 @@
       </v-card>
     </v-dialog>
   </v-row>
+
 
   <!-- Edit and Update Product Modal -->
   <v-row justify="center">
@@ -238,6 +237,8 @@ export default {
             id: '',
             snackbar: false,
             text: '',
+            image: null,
+            onSelect: null
         }
     },
 
@@ -251,13 +252,28 @@ export default {
     },
 
     methods: {
+      onChange(){
+        this.image = this.$refs.image.files[0]
+      },
+
       async createProduct(){
+        const formData = new FormData();  
+        formData.append('image', this.image)
+        formData.append('name', this.name)
+        formData.append('price', this.price)
+
         this.text = "Product Added Successfully."
         this.isLoading = true;
-        await ProductService.insertProduct(this.name, this.price);
+
+        await ProductService.insertProduct(formData);
+
         this.products = await ProductService.getProducts()
+
         this.isLoading = false;
         this.snackbar = true;
+        console.log(this.image)
+        console.log(this.name)
+        console.log(this.price)
       },
 
       async editProduct(id, name, price){

@@ -24,10 +24,9 @@ class ProductService {
     }
 
     // Add Product
-    static insertProduct(name, price) {
-        return axios.post(url, {
-            name,
-            price
+    static insertProduct(data) {
+        return axios.post(url, data, {
+            
         });
     }
 

@@ -34,7 +34,7 @@
           <main class="flex justify-center w-full flex-wrap gap-10 mb-10">
             <div v-for="product in products" :key="product._id">
               <div class="flex flex-col items-center justify-start transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer bg-cover bg-center">
-                <div class="w-56 h-72 bg-[#ffc619] rounded-3xl"></div>
+                <div class="w-56 h-72 bg-[#ffc619] rounded-3xl bg-center bg-cover" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
                 <p class="mt-3 font-bold">{{ product.name }}</p>
                 <p>P {{  product.price }}</p>
               </div>
