@@ -6,7 +6,7 @@
       <p class="text-2xl mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla autem tempora, esse molestias, perspiciatis sint asperiores expedita molestiae hic rerum eos dolore quibusdam! Natus, sint. Earum amet eveniet necessitatibus omnis</p>
     </div>
 
-    <section class="flex justify-center items-center mt-10 animate__animated animate__slideInRight">
+    <section class="flex justify-center items-center mt-10 animate__animated animate__slideInLeft">
         <div class="flex justify-between items-center flex-wrap lg:flex-nowrap">
             <div class="w-full lg:w-2/5">
                 <h1 class="text-3xl font-bold">Input long title here</h1>
@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    <section class="flex justify-center items-center mt-10" data-aos="fade-right">
+    <section class="flex justify-center items-center mt-10" data-aos="fade-left">
         <div class="flex justify-between items-center flex-wrap lg:flex-nowrap">
             <div class="w-full lg:w-2/5">
                 <h1 class="text-3xl font-bold">Input long title here</h1>
