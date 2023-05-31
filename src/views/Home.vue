@@ -1,7 +1,7 @@
 <template>
   <main class="flex justify-center top-0 items-center flex-col w-full">
     <div
-        class="w-full h-screen bg-[url('https://i1.wp.com/www.housevin.com/wp-content/uploads/maquiling-builders-depot-sto-tomas-batangas.jpg?fit=1200%2C674&ssl=1')] bg-cover bg-center">
+        class="w-full h-screen bg-[url('https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/347555804_2364762957064445_2284981828660216505_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeFENPT_8lUv3T0SdP5HaoqYJXtHXHtuz3Ale0dce27PcDk0stgKSIscOVKmrAmfavfwibIHH651Cv9cUmEM8Hh0&_nc_ohc=XrJcw1UUe18AX9LvCHF&_nc_ht=scontent.fmnl13-1.fna&oh=00_AfAoyp5OP-22hDVsw8V_FvoH03Y-yYQz9qoX53M_jdlftQ&oe=64783BEB')] bg-cover bg-center">
         <div class="w-full h-full flex justify-center items-center backdrop-brightness-50 text-white">
               <div class="flex flex-col justify-center items-center gap-5">
                 <span class="text-4xl sm:text-[54px] text-center font-bold animate__animated animate__fadeInUp">Maquiling Builders Depot</span>
@@ -56,7 +56,7 @@
     </v-carousel>
   </div>
 
-  <section class="bg-[#2e2b6e] text-white flex justify-center items-center flex-col p-10">
+  <!-- <section class="bg-[#2e2b6e] text-white flex justify-center items-center flex-col p-10">
     <h1 class="text-[40px]">Services</h1>
       <div class="p-16 h-auto flex justify-center items-center gap-10 flex-wrap">
         <div class="flex text-center flex-col items-center w-auto gap-3" data-aos="fade-left">
@@ -95,7 +95,7 @@
           <p class="w-56">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
         </div>
       </div>
-  </section>
+  </section> -->
 
 </template>
 

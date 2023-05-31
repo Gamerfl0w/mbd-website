@@ -31,10 +31,9 @@ class ProductService {
     }
 
     // Update Product
-    static updateProduct(id, name, price) {
-        return axios.put(`${updateURL}${id}`, {
-            name,
-            price
+    static updateProduct(id, data) {
+        return axios.put(`${updateURL}${id}`, data, {
+
         });
     }
 

@@ -1,10 +1,10 @@
 <template>
-  <body class="animate__animated animate__slideInUp p-10 h-full">
+  <body class="animate__animated animate__slideInUp p-10 h-full bg-[#fda300]">
     <div class="absolute bottom-10 right-10">
         <v-btn @click="showAdd = true, name = '', price = ''" icon="mdi-plus" size="x-large"></v-btn>
     </div>
     <div class="flex w-full items-center justify-center">
-        <h1 class="text-4xl">Products</h1>
+        <h1 class="text-4xl text-white">Products</h1>
     </div>
     <!-- component -->
     <div>
@@ -20,12 +20,12 @@
 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
 
   <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
-    <thead class="bg-gray-50">
+    <thead class="bg-[#153040] text-white">
       <tr>
-        <th scope="col" class="px-6 py-4 font-medium text-gray-900 text-xl">Product Name</th>
-        <th scope="col" class="px-6 py-4 font-medium text-gray-900 text-xl">Price</th>
+        <th scope="col" class="px-6 py-4 font-medium text-xl">Product Name</th>
+        <th scope="col" class="px-6 py-4 font-medium text-xl">Price</th>
         <div class="flex justify-end">
-            <th scope="col" class="px-6 py-4 font-medium text-gray-900 text-xl">Actions</th>
+            <th scope="col" class="px-6 py-4 font-medium text-xl">Actions</th>
         </div>
       </tr>
     </thead>
@@ -42,7 +42,7 @@
             class="inline-flex items-center text-xl font-semibold"
           >
             <span class="h-1.5 w-1.5 rounded-full"></span>
-           P {{ product.price }}
+            ₱{{ product.price }}
           </span>
         </td>
         <td class="px-6 py-4">
@@ -76,7 +76,7 @@
         </template>
       </v-dialog>
     </v-col>
-            <v-btn @click="editProduct(product._id, product.name, product.price)" icon="mdi-pencil" variant="plain">
+            <v-btn @click="editProduct(product._id, product.name, product.price, product.image.filename)" icon="mdi-pencil" variant="plain">
             </v-btn>
             </div>
           </div>
@@ -88,6 +88,7 @@
 
 
 <!-- Add Product Modal -->
+<v-form v-model="isFormValid">
 <v-row justify="center">
     <v-dialog
       v-model="showAdd"
@@ -102,21 +103,27 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <input type="file" ref="image" @change="onChange" name="image">
+                <div class="flex flex-col justify-center items-center border-2 p-2 rounded-lg">
+                  <p class="font-bold">Upload Product Image</p>
+                  <input type="file" id="image" ref="image" @change="onChange" name="image" class="hidden">
+                  <p class="mt-3" v-if="image != null">{{ image.name }}</p>
+                  <img class="h-48 w-48 rounded-xl" v-if="url" :src="url" />
+                  <label class="p-3 bg-[#1f4762] text-white cursor-pointer hover:opacity-80 rounded-lg mt-3" for="image">Select an image</label>
+                </div>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field class="rounded-lg"
                   label="Product Name*"
                   v-model="name"
-                  required
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field class="rounded-lg"
                   label="Price*"
                   v-model="price"
                   type="number"
-                  required
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
 
@@ -126,27 +133,27 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
+          <div class="flex gap-3 text-white">
+            <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="showAdd = false, name = '', price = ''"
+            @click="showAdd = false, name = '', price = '', image = null, url = null"
           >
             Close
           </v-btn>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="showAdd = false, createProduct()"
-          >
+          <v-btn color="blue-darken-1" variant="text" :disabled="!isFormValid" @click="createProduct">
             Save
           </v-btn>
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
+</v-form>
 
 
   <!-- Edit and Update Product Modal -->
+<v-form v-model="isFormValid">
   <v-row justify="center">
     <v-dialog
       v-model="showEdit"
@@ -161,9 +168,18 @@
           <v-container>
             <v-row>
               <v-col cols="12">
+                <div class="flex flex-col justify-center items-center border-2 p-2 rounded-lg mb-5">
+                  <p class="font-bold">Upload Product Image</p>
+                  <input type="file" id="image" ref="image" @change="onChange" name="image" class="hidden">
+                  <p class="mt-3" v-if="image != null">{{ image.name }}</p>
+                  <img class="h-48 w-48 rounded-xl" v-if="image == null" :src="currentImage" />
+                  <img class="h-48 w-48 rounded-xl" v-if="url" :src="url" />
+                  <label class="p-3 bg-[#1f4762] text-white cursor-pointer hover:opacity-80 rounded-lg mt-3" for="image">Select an image</label>
+                </div>
                 <v-text-field
                   label="Product Name*"
                   v-model="name"
+                  :rules="rules"
                   required
                 ></v-text-field>
               </v-col>
@@ -172,6 +188,7 @@
                   label="Price*"
                   v-model="price"
                   type="number"
+                  :rules="rules"
                   required
                 ></v-text-field>
               </v-col>
@@ -185,14 +202,14 @@
           <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="showEdit = false, name = '', price = ''"
+            @click="showEdit = false, name = '', price = '', image = null"
           >
             Close
           </v-btn>
           <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="showEdit = false, updateProduct(id)"
+            @click="updateProduct(id)"
           >
             Save
           </v-btn>
@@ -200,6 +217,7 @@
       </v-card>
     </v-dialog>
   </v-row>
+</v-form>
   
   <v-snackbar
       v-model="snackbar"
@@ -238,7 +256,11 @@ export default {
             snackbar: false,
             text: '',
             image: null,
-            onSelect: null
+            onSelect: null,
+            rules: [this.rules = [value => !!value || 'Required.']],
+            isFormValid: false,
+            url: null,
+            currentImage: null
         }
     },
 
@@ -252,8 +274,10 @@ export default {
     },
 
     methods: {
-      onChange(){
+      onChange(e){
         this.image = this.$refs.image.files[0]
+        const file = e.target.files[0];
+        this.url = URL.createObjectURL(file);
       },
 
       async createProduct(){
@@ -265,22 +289,28 @@ export default {
         this.text = "Product Added Successfully."
         this.isLoading = true;
 
-        await ProductService.insertProduct(formData);
+        if(this.image !== null && this.name && this.price !== ''){
+          this.showAdd = false
+          await ProductService.insertProduct(formData);
+          this.image = null
+          this.url = null
+        }else{
+          this.isLoading = false;
+          this.text = "Please upload an image"
+          this.snackbar = true;
+        }
 
         this.products = await ProductService.getProducts()
-
         this.isLoading = false;
         this.snackbar = true;
-        console.log(this.image)
-        console.log(this.name)
-        console.log(this.price)
       },
 
-      async editProduct(id, name, price){
+      async editProduct(id, name, price, image){
         this.showEdit = true;
         this.id = id;
         this.name = name;
         this.price = price;
+        this.currentImage = '/uploads/' + image
       },
 
       async deleteProduct(id){
@@ -293,12 +323,32 @@ export default {
       },
 
       async updateProduct(id){
-        this.text = "Product has been updated successfully."
-        this.isLoading = true;
-        await ProductService.updateProduct(id, this.name, this.price);
-        this.products = await ProductService.getProducts()
-        this.isLoading = false;
-        this.snackbar = true;
+        if (this.name && this.price !== '') {
+          this.showEdit = false;
+
+          const formData = new FormData();  
+          formData.append('image', this.image)
+          formData.append('name', this.name)
+          formData.append('price', this.price)
+
+          this.text = "Product has been updated successfully."
+          this.isLoading = true;
+
+          await ProductService.updateProduct(id, formData);
+
+          this.name = ''
+          this.price = ''
+          this.image = null
+          this.url = null
+          this.products = await ProductService.getProducts()
+          this.isLoading = false;
+          this.snackbar = true;
+
+        }else{
+          this.text = "Please check your input."
+          this.snackbar = true;
+        }    
+        
       },
 
     }

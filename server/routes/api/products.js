@@ -54,16 +54,39 @@ router.put('/update-product/:id', async (req, res) => {
     const products = await loadProductsCollection();
     const filter = { _id: new mongodb.ObjectId(req.params.id) };
 
-    const updateDocument = {
-        $set: {
-            name: req.body.name,
-            price: req.body.price,
-        },
-    };
+    handleMultipartData(req, res, async (err) => {
+      if (err) {
+        res.json({ msgs: err.message });
 
-    await products.updateOne(filter, updateDocument);
+      }else{
 
-    res.status(200).send();
+        if(req.file == null) {
+          const updateDocument = {
+            $set: {
+                name: req.body.name,
+                price: req.body.price,
+            },
+          };
+
+          await products.updateOne(filter, updateDocument);
+          res.status(200).send();
+
+        } else if(req.file != null) {
+          const updateDocument = {
+            $set: {
+                name: req.body.name,
+                price: req.body.price,
+                image: req.file,
+            },
+          };
+
+          await products.updateOne(filter, updateDocument);
+          res.status(200).send();
+        }
+
+        
+      }
+    }); 
 });
 
 
