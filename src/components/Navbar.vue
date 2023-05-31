@@ -8,7 +8,7 @@
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/products">Products</router-link>
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="locations">Store Locations</router-link>
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/contact-us">Contact Us</router-link>
-            <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="">About Us</router-link>
+            <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/about-us">About Us</router-link>
           </ul>
          </div>
       </div>
