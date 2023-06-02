@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
 import ContactUs from '../views/ContactUs.vue'
-import Dashboard from '../views/Dashboard.vue'
+import Dashboard from '../views/admin/Dashboard.vue'
 import Store from '../views/StoreLocations.vue'
 import AboutUs from '../views/AboutUs.vue'
+import ShowProduct from '../views/products/ShowProduct.vue'
 
 
 const router = createRouter({
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: '/dashboard', name: 'dashboard', component: Dashboard },
     { path: '/locations', name: 'store', component: Store },
     { path: '/about-us', name: 'about-us', component: AboutUs },
+    { path: '/show-product/:id', name: 'show-product', component: ShowProduct, props: true },
     // {
     //   path: '/about',
     //   name: 'about',

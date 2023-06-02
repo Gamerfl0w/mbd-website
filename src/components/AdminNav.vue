@@ -1,11 +1,11 @@
 <script setup>
-import Dashboard from '../views/Dashboard.vue'
-import AdminProducts from '../views/AdminProducts.vue'
+import Dashboard from '../views/admin/Dashboard.vue'
+import AdminProducts from '../views/admin/AdminProducts.vue'
 
 </script>
 
 <template>
-      <body class="bg-[#fda300]">
+      <body class="bg-[#153040]">
         <v-card>
           <v-layout>
             <v-navigation-drawer

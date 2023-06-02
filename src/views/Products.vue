@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col justify-center items-center">
         <div class="mt-10">
-            <h1 class="text-[40px]">Products</h1>  
+            <h1 class="text-[40px] text-[#02044a]">Products</h1>  
         </div>
         <hr class="w-4/5 mt-5">
         
@@ -33,12 +33,15 @@
         <div v-if="loading == false">
           <main class="flex justify-center w-full flex-wrap gap-10 mb-10">
             <div v-for="product in products" :key="product._id">
+            <router-link :to="{ name: 'show-product', params: { id: product._id },
+                                query: { id: product._id }}">
               <div class="flex flex-col items-center justify-start transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer bg-cover bg-center">
                 <div class="w-56 h-72 bg-[#ffc619] rounded-3xl bg-center bg-cover" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
                 <p class="mt-3 font-bold">{{ product.name }}</p>
                 <p>₱ {{  product.price }}</p>
               </div>
-            </div>          
+            </router-link> 
+            </div>         
           </main>
         </div>
 

@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 import Products from './views/Products.vue'
 import AddProduct from './components/AddProduct.vue'
 import AdminNav from './components/AdminNav.vue'
-import Dashboard from './views/Dashboard.vue'
+import Dashboard from './views/admin/Dashboard.vue'
 import Modal from './components/Modal.vue'
 
 import 'animate.css';

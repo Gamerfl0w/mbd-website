@@ -50,6 +50,14 @@ router.post('/', async (req, res) => {
     
 });
 
+// Show Product
+router.get('/show-product/:id', async (req, res) => {
+  const products = await loadProductsCollection();
+  const query = { _id: new mongodb.ObjectId(req.params.id) };
+  res.send(await products.findOne(query));
+});
+
+//Update Product
 router.put('/update-product/:id', async (req, res) => {
     const products = await loadProductsCollection();
     const filter = { _id: new mongodb.ObjectId(req.params.id) };
@@ -90,7 +98,7 @@ router.put('/update-product/:id', async (req, res) => {
 });
 
 
-// Delete Products
+// Delete Product
 router.delete('/:id', async (req, res) => {
     const products = await loadProductsCollection();
     await products.deleteOne({_id: new mongodb.ObjectId(req.params.id)})

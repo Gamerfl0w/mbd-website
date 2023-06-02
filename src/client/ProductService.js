@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const url = 'http://localhost:5000/api/products/';
 const updateURL = 'http://localhost:5000/api/products/update-product/'
+const showProduct = "http://localhost:5000/api/products/show-product/"
 
 class ProductService {
 
@@ -21,6 +22,28 @@ class ProductService {
                 reject(err);
             }
         });
+    }
+
+    static async showProduct(id){
+        // return axios.get(`${showProduct}${id}`);
+
+        const res = await axios.get(`${showProduct}${id}`);
+        const data = res.data;
+        return data;
+
+
+        // return new Promise(async (resolve, reject) => {
+        //     try {
+        //         const res = await axios.get(`${showProduct}${id}`);
+        //         const data = res.data;
+        //         return data;
+        //         // resolve(
+        //         //     return data;
+        //         // );
+        //     } catch(err) {
+        //         reject(err);
+        //     }
+        // });
     }
 
     // Add Product

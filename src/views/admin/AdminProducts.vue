@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import ProductService from '../client/productService.js';
+import ProductService from '../../client/productService.js';
 
 export default {
 
