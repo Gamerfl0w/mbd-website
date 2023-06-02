@@ -4,9 +4,12 @@
             <img :src="'/uploads/' + products.image.filename" class="w-full h-64 sm:h-96 animate__animated animate__fadeInUp" alt="" style="border-radius: 10px;">
         </div>
 
-        <div class="flex flex-col justify-center items-center sm:items-start">
-            <h1 class="text-3xl text-[#02044a]">{{ products.name }}</h1>
+        <div class="flex flex-col justify-center items-center sm:items-start gap-3">
+            <h1 class="text-3xl text-[#02044a] font-bold">{{ products.name }}</h1>
             <p class="max-w-xl text-xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, molestiae excepturi. Ducimus tempore asperiores veniam totam sint nesciunt consequuntur illum dolores maiores? Unde veniam voluptate molestiae mollitia explicabo expedita temporibus!</p>
+            <div class="">
+                <p class="font-semibold text-2xl">₱{{ products.price }}</p>
+            </div>
         </div>
     </div>
     <div class="flex w-full h-[88vh] justify-center items-center" v-if="loading == true">

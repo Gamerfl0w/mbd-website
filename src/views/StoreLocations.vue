@@ -8,11 +8,11 @@
       </div>
 
       <div v-if="showSelection" class="flex flex-col w-screen justify-center items-center">
-        <div class="flex justify-center w-11/12 items-center h-full gap-10 bg-[#ffc619] text-white p-10 rounded-3xl flex-wrap">
+        <div class="flex justify-center w-full sm:w-11/12 items-center h-full gap-10 bg-[#ffc619] text-white p-10 rounded-3xl flex-wrap">
             <div class="w-[200px] sm:w-auto sm:justify-start h-full flex flex-col gap-5 text-[#153040] flex-shrink-0">
                 <h1 class="text-3xl font-bold">Select a Store</h1>
                     <!-- <p class="text-xl font-semibold">Choose a store near you.</p> -->
-                <p class="text-xl font-semibold">A hub for builders to find the tools and resources they need to turn their vision into a reality.</p>
+                <p class="text-xl font-semibold text-center">A hub for builders to find the tools and resources they need to turn their vision into a reality.</p>
             </div>
             
             <div class="flex gap-10 flex-wrap justify-center items-center">

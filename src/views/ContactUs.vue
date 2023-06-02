@@ -4,7 +4,7 @@
   <h1 class="text-[54px] text-center text-[#02044a] mt-5">Contact Us</h1>
   <p class="text-center text-xl">Any questions or remarks? Just write us a message!</p>
 
-  <div class="w-4/5 xl:w-auto flex bg-white rounded-3xl p-2">
+  <div class="w-full xl:w-auto flex bg-white rounded-3xl p-2">
     <div class="flex flex-wrap lg:flex-nowrap">
       <div class="w-full xl:w-[35%] xl:h-full bg-[#1f4762] rounded-3xl text-white">
       <div class="p-10 flex flex-col h-full">

@@ -25,25 +25,7 @@ class ProductService {
     }
 
     static async showProduct(id){
-        // return axios.get(`${showProduct}${id}`);
-
-        const res = await axios.get(`${showProduct}${id}`);
-        const data = res.data;
-        return data;
-
-
-        // return new Promise(async (resolve, reject) => {
-        //     try {
-        //         const res = await axios.get(`${showProduct}${id}`);
-        //         const data = res.data;
-        //         return data;
-        //         // resolve(
-        //         //     return data;
-        //         // );
-        //     } catch(err) {
-        //         reject(err);
-        //     }
-        // });
+        return await axios.get(`${showProduct}${id}`);
     }
 
     // Add Product
