@@ -105,6 +105,15 @@ router.delete('/:id', async (req, res) => {
     res.status(200).send();
 });
 
+// Search Product
+router.get('/search/:name', async (req, res) => {
+  const products = await loadProductsCollection();
+  const name = req.params.name;
+  const find = await products.find({ name: new RegExp(name, 'i') }).toArray()
+
+  res.send(find);
+});
+
 async function loadProductsCollection(){
     const client = await mongodb.MongoClient.connect
     (process.env.VITE_CONN_STRING , {

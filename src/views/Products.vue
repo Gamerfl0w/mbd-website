@@ -23,6 +23,38 @@
             <button class="p-3 bg-[#1f4762] rounded-lg w-48 flex items-center justify-center gap-5">
               <v-icon icon="mdi-magnify"></v-icon> 
               Search
+              <v-overlay class="flex justify-center items-center"
+        activator="parent"
+        location-strategy="static"
+        scroll-strategy="none"
+      >
+        <div class="flex justify-center w-[80vw] lg:w-[60vw] h-[80vh] bg-white rounded-xl p-10 animate__animated animate__fadeIn">
+          <div class="flex text-2xl h-full w-full">
+            <v-icon class="mr-2" icon="mdi-magnify"></v-icon>
+            <div>
+              <input v-model="input"  @input="searchTimeOut" class="p-1 w-[50vw]" type="text" placeholder="Search">
+              <div v-if="isSearching == true" class="flex flex-col items-center justify-center h-full w-full">
+                <v-progress-circular :size="70" :active="isSearching" :indeterminate="isSearching"></v-progress-circular>
+              </div>
+              <div class="h-full w-full mt-5">
+                <div v-for="item in searchProducts" :key="item._id">
+                  <router-link :to="{ name: 'show-product', params: { id: item._id }}">
+                    <div class="mb-5 flex items-center justify-between gap-10 hover:bg-[#1f4762] hover:text-white hover:cursor-pointer hover:rounded-md p-3 flex-wrap">
+                      <div class="flex items-center gap-5 flex-wrap text-center sm:justify-start">
+                        <img class="h-7 sm:h-14 w-7 sm:w-14 rounded-md" :src="/uploads/ + item.image.filename" />
+                        <p>{{ item.name }}</p>
+                      </div>
+                      <div class="hidden sm:flex">
+                        <p class="text-center">₱{{ item.price }}</p>
+                      </div>
+                    </div>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </v-overlay>
             </button>
           </div>
         </div>
@@ -33,8 +65,7 @@
         <div v-if="loading == false">
           <main class="flex justify-center w-full flex-wrap gap-10 mb-10">
             <div v-for="product in products" :key="product._id">
-            <router-link :to="{ name: 'show-product', params: { id: product._id },
-                                query: { id: product._id }}">
+            <router-link :to="{ name: 'show-product', params: { id: product._id }}">
               <div class="flex flex-col items-center justify-start transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer bg-cover bg-center">
                 <div class="w-56 h-72 bg-[#ffc619] rounded-3xl bg-center bg-cover" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
                 <p class="mt-3 font-bold">{{ product.name }}</p>
@@ -49,7 +80,6 @@
           <v-progress-circular :size="70" indeterminate></v-progress-circular>
         </div>
     </div>
-
 </div>
 </template>
 
@@ -64,6 +94,10 @@ export default {
             products: [],
             error: '',
             loading: false,
+            isSearching: false,
+            searchProducts: [],
+            input: '',
+            timeout: null,
         }
     },
 
@@ -76,6 +110,32 @@ export default {
             this.error = err.message;
         }
     },
+
+    methods: {
+      // focusInput() {
+      //   this.$refs.input.focus();
+      //   console.log('Focus where?');
+      // },
+
+      searchTimeOut() {  
+        if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
+        this.timer = setTimeout(() => {
+            this.search()
+        }, 800);
+      },
+
+      async search(){
+        if (this.input != null || '') {
+          this.isSearching = true;
+          this.searchProducts = await ProductService.search(this.input);
+          this.isSearching = false;
+        }
+      }
+
+    }
 
 }
 </script>

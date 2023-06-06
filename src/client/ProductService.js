@@ -3,6 +3,7 @@ import axios from 'axios';
 const url = 'http://localhost:5000/api/products/';
 const updateURL = 'http://localhost:5000/api/products/update-product/'
 const showProduct = "http://localhost:5000/api/products/show-product/"
+const searchURL = 'http://localhost:5000/api/products/search/'
 
 class ProductService {
 
@@ -25,7 +26,10 @@ class ProductService {
     }
 
     static async showProduct(id){
-        return await axios.get(`${showProduct}${id}`);
+        // return await axios.get(`${showProduct}${id}`);
+        const res = await axios.get(`${showProduct}${id}`);
+        const data = res.data;
+        return data;
     }
 
     // Add Product
@@ -45,6 +49,24 @@ class ProductService {
     //  Delete Product
     static deleteProduct(id){
         return axios.delete(`${url}${id}`);
+    }
+
+    // Search Products
+    static search(name){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.get(`${searchURL}${name}`);
+                const data = res.data;
+                resolve(
+                    data.map(product => ({
+                        ...product,
+                        
+                    }))
+                );
+            } catch(err) {
+                reject(err);
+            }
+        });
     }
 
 }
