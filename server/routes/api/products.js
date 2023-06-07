@@ -23,9 +23,26 @@ const handleMultipartData = multer({
 }).single("image");
 
 // Get Products
-router.get('/', async (req, res) => {
-    const products = await loadProductsCollection();
-    res.send(await products.find({}).toArray());
+router.get('/:page', async (req, res, next) => {
+  try {
+    const Product = await loadProductsCollection();
+    const page = req.params.page;
+    const limit = 10;
+    const products = await Product.find()
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: 1 }).toArray();
+
+    const count = await Product.countDocuments();
+
+    return res.status(200).json({
+        products,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+    });
+} catch (err) {
+    next(err);
+}
 });
 
 // Add Product

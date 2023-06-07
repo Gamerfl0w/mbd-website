@@ -39,7 +39,7 @@
               <div class="h-full w-full mt-5">
                 <div v-for="item in searchProducts" :key="item._id">
                   <router-link :to="{ name: 'show-product', params: { id: item._id }}">
-                    <div class="mb-5 flex items-center justify-between gap-10 hover:bg-[#1f4762] hover:text-white hover:cursor-pointer hover:rounded-md p-3 flex-wrap">
+                    <div class="mb-5 flex items-center justify-between gap-10 duration-300 ease-in-out hover:bg-[#1f4762] hover:text-white hover:cursor-pointer hover:rounded-md p-3 flex-wrap">
                       <div class="flex items-center gap-5 flex-wrap text-center sm:justify-start">
                         <img class="h-7 sm:h-14 w-7 sm:w-14 rounded-md" :src="/uploads/ + item.image.filename" />
                         <p>{{ item.name }}</p>
@@ -69,12 +69,13 @@
               <div class="flex flex-col items-center justify-start transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer bg-cover bg-center">
                 <div class="w-56 h-72 bg-[#ffc619] rounded-3xl bg-center bg-cover" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
                 <p class="mt-3 font-bold">{{ product.name }}</p>
-                <p>₱ {{  product.price }}</p>
+                <p>₱ {{ product.price }}</p>
               </div>
             </router-link> 
             </div>         
           </main>
-        </div>
+          <v-pagination class="my-5" :length="products[0].totalPages" v-model="page"></v-pagination>
+      </div>
 
         <div v-if="loading == true">
           <v-progress-circular :size="70" indeterminate></v-progress-circular>
@@ -98,24 +99,35 @@ export default {
             searchProducts: [],
             input: '',
             timeout: null,
+            page: parseInt(this.$route.path.substring(10)),
         }
     },
 
     async created() {
       this.loading = true;
         try {
-            this.products = await ProductService.getProducts();
+            this.products = await ProductService.getProducts(this.page);
             this.loading = false;
         } catch(err) {
             this.error = err.message;
         }
     },
 
+    watch: {
+      // whenever page changes, this function will run
+      page: function () {
+        this.products = [];
+        this.loading = true;
+        this.$router.push('/products/' + this.page);
+        this.getPage();
+      }
+    },
+
     methods: {
-      // focusInput() {
-      //   this.$refs.input.focus();
-      //   console.log('Focus where?');
-      // },
+      async getPage(){
+        this.products = await ProductService.getProducts(this.page);
+        this.loading = false;
+      },
 
       searchTimeOut() {  
         if (this.timer) {
@@ -133,7 +145,7 @@ export default {
           this.searchProducts = await ProductService.search(this.input);
           this.isSearching = false;
         }
-      }
+      },
 
     }
 
