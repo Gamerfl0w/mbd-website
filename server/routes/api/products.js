@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
 });
 
 // Show Product
-router.get('/show-product/:id', async (req, res) => {
+router.get('/get/show-product/:id', async (req, res) => {
   const products = await loadProductsCollection();
   const query = { _id: new mongodb.ObjectId(req.params.id) };
   res.send(await products.findOne(query));
@@ -132,7 +132,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Search Product
-router.get('/search/:name', async (req, res) => {
+router.get('/search/product/:name', async (req, res) => {
   const products = await loadProductsCollection();
   const name = req.params.name;
   const find = await products.find({ name: new RegExp(name, 'i') }).toArray()

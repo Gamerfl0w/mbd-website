@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const url = 'http://localhost:5000/api/products/';
 const updateURL = 'http://localhost:5000/api/products/update-product/'
-const showProduct = "http://localhost:5000/api/products/show-product/"
-const searchURL = 'http://localhost:5000/api/products/search/'
+const showProduct = "http://localhost:5000/api/products/get/show-product/"
+const searchURL = 'http://localhost:5000/api/products/search/product/'
 
 class ProductService {
 
