@@ -8,16 +8,16 @@ const searchURL = 'http://localhost:5000/api/products/search/'
 class ProductService {
 
     // Get Products
-    static getProducts(page){
+    static getProducts(page, category){
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.get(`${url}${page}`);
+                const res = await axios.get(`${url}${page}/${category}`);
                 const data = res.data.products;
                 resolve(
                     data.map(product => ({
                         ...product,
                         totalPages: res.data.totalPages,
-                        currentPage: res.data.currentPage
+                        currentPage: res.data.currentPage,
                     }))
                 );
             } catch(err) {

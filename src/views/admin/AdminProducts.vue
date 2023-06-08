@@ -23,6 +23,7 @@
     <thead class="bg-[#153040] text-white">
       <tr>
         <th scope="col" class="px-6 py-4 font-medium text-xl">Product Name</th>
+        <th scope="col" class="px-6 py-4 font-medium text-xl">Category</th>
         <th scope="col" class="px-6 py-4 font-medium text-xl">Price</th>
         <div class="flex justify-end">
             <th scope="col" class="px-6 py-4 font-medium text-xl">Actions</th>
@@ -37,6 +38,14 @@
             <div class="font-medium text-gray-700 text-2xl">{{ product.name }}</div>
           </div>
         </th>
+        <td class="px-6 py-4">
+          <span
+            class="inline-flex items-center text-xl"
+          >
+            <span class="h-1.5 w-1.5 rounded-full"></span>
+            {{ product.category }}
+          </span>
+        </td>
         <td class="px-6 py-4">
           <span
             class="inline-flex items-center text-xl font-semibold"
@@ -76,7 +85,7 @@
         </template>
       </v-dialog>
     </v-col>
-            <v-btn @click="editProduct(product._id, product.name, product.price, product.image.filename)" icon="mdi-pencil" variant="plain">
+            <v-btn @click="editProduct(product._id, product.name, product.category, product.price, product.image.filename)" icon="mdi-pencil" variant="plain">
             </v-btn>
             </div>
           </div>
@@ -92,7 +101,6 @@
 <v-row justify="center">
     <v-dialog
       v-model="showAdd"
-      persistent
       width="1024"
     >
       <v-card>
@@ -118,6 +126,17 @@
                   :rules="rules"
                 ></v-text-field>
               </v-col>
+
+              <v-col cols="12">
+              <v-select
+                v-model="category"
+                :items="categories"
+                :rules="[v => !!v || 'Category is required']"
+                label="Category*"
+                required
+              ></v-select>
+              </v-col>
+
               <v-col cols="12">
                 <v-text-field class="rounded-lg"
                   label="Price*"
@@ -129,7 +148,6 @@
 
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -137,7 +155,7 @@
             <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="showAdd = false, name = '', price = '', image = null, url = null"
+            @click="showAdd = false, name = '', category = '', price = '', image = null, url = null"
           >
             Close
           </v-btn>
@@ -157,7 +175,6 @@
   <v-row justify="center">
     <v-dialog
       v-model="showEdit"
-      persistent
       width="1024"
     >
       <v-card>
@@ -168,7 +185,7 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <div class="flex flex-col justify-center items-center border-2 p-2 rounded-lg mb-5">
+                <div class="flex flex-col justify-center items-center border-2 p-2 rounded-lg">
                   <p class="font-bold">Upload Product Image</p>
                   <input type="file" id="image" ref="image" @change="onChange" name="image" class="hidden">
                   <p class="mt-3" v-if="image != null">{{ image.name }}</p>
@@ -183,6 +200,17 @@
                   required
                 ></v-text-field>
               </v-col>
+
+              <v-col cols="12">
+              <v-select
+                v-model="category"
+                :items="categories"
+                :rules="[v => !!v || 'Category is required']"
+                label="Category*"
+                required
+              ></v-select>
+              </v-col>
+
               <v-col cols="12">
                 <v-text-field
                   label="Price*"
@@ -192,10 +220,8 @@
                   required
                 ></v-text-field>
               </v-col>
-
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -260,13 +286,20 @@ export default {
             rules: [this.rules = [value => !!value || 'Required.']],
             isFormValid: false,
             url: null,
-            currentImage: null
+            currentImage: null,
+            categories: [
+              'Furnitures',
+              'Tiles',
+              'Appliances',
+              'Luminaires',
+            ],
+            category: '',
         }
     },
 
     async created() {
         try {
-            this.products = await ProductService.getProducts()
+            this.products = await ProductService.getProducts("1", "none")
             this.isLoaded = true
         } catch(err) {
             this.error = err.message;
@@ -285,13 +318,15 @@ export default {
         formData.append('image', this.image)
         formData.append('name', this.name)
         formData.append('price', this.price)
+        formData.append('category', this.category)
 
         this.text = "Product Added Successfully."
         this.isLoading = true;
 
-        if(this.image !== null && this.name && this.price !== ''){
+        if(this.image !== null && this.name && this.category && this.price !== ''){
           this.showAdd = false
           await ProductService.insertProduct(formData);
+          this.category = ''
           this.image = null
           this.url = null
         }else{
@@ -300,15 +335,16 @@ export default {
           this.snackbar = true;
         }
 
-        this.products = await ProductService.getProducts()
+        this.products = await ProductService.getProducts("1", "none")
         this.isLoading = false;
         this.snackbar = true;
       },
 
-      async editProduct(id, name, price, image){
+      async editProduct(id, name, category, price, image){
         this.showEdit = true;
         this.id = id;
         this.name = name;
+        this.category = category
         this.price = price;
         this.currentImage = '/uploads/' + image
       },
@@ -330,6 +366,7 @@ export default {
           formData.append('image', this.image)
           formData.append('name', this.name)
           formData.append('price', this.price)
+          formData.append('category', this.category)
 
           this.text = "Product has been updated successfully."
           this.isLoading = true;
@@ -338,9 +375,10 @@ export default {
 
           this.name = ''
           this.price = ''
+          this.category = ''
           this.image = null
           this.url = null
-          this.products = await ProductService.getProducts()
+          this.products = await ProductService.getProducts("1", "none")
           this.isLoading = false;
           this.snackbar = true;
 

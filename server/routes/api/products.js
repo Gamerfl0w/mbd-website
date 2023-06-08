@@ -23,25 +23,31 @@ const handleMultipartData = multer({
 }).single("image");
 
 // Get Products
-router.get('/:page', async (req, res, next) => {
+router.get('/:page/:category', async (req, res, next) => {
   try {
     const Product = await loadProductsCollection();
     const page = req.params.page;
     const limit = 10;
-    const products = await Product.find()
+    var query = {};
+
+    if (req.params.category != "none") {
+      query = { "category": req.params.category };
+    }
+    
+      const products = await Product.find(query)
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .sort({ createdAt: 1 }).toArray();
 
-    const count = await Product.countDocuments();
+      const count = await Product.countDocuments();
 
-    return res.status(200).json({
-        products,
-        totalPages: Math.ceil(count / limit),
-        currentPage: page,
-    });
-} catch (err) {
-    next(err);
+      return res.status(200).json({
+          products,
+          totalPages: Math.ceil(count / limit),
+          currentPage: page,
+      });  
+    } catch (err) {
+        next(err);
 }
 });
 
@@ -56,6 +62,7 @@ router.post('/', async (req, res) => {
           name: req.body.name,
           price: req.body.price,
           image: req.file,
+          category: req.body.category,
           createdAt: new Date() 
         });    
           res.status(201).send();
@@ -89,6 +96,7 @@ router.put('/update-product/:id', async (req, res) => {
           const updateDocument = {
             $set: {
                 name: req.body.name,
+                category: req.body.category,
                 price: req.body.price,
             },
           };
@@ -100,6 +108,7 @@ router.put('/update-product/:id', async (req, res) => {
           const updateDocument = {
             $set: {
                 name: req.body.name,
+                category: req.body.category,
                 price: req.body.price,
                 image: req.file,
             },

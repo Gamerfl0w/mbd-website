@@ -31,7 +31,13 @@ export default {
     data(){
         return{
             showDash: true,
-            showProducts: false
+            showProducts: false,
+            categories: [
+              'Furnitures',
+              'Tiles',
+              'Appliances',
+              'Luminaires',
+            ],
         }
     }
 }
