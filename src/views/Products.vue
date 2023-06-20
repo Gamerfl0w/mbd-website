@@ -8,8 +8,8 @@
         <div class="flex justify-center items-start w-4/5 mt-5 text-white">
           <div class="flex justify-around w-full gap-3 sm:gap-0 flex-wrap">
             <div class="flex gap-2 sm:gap-5">  
-              <select id="categories" @change="getCategory" class="bg-[#1f4762] border border-[#1f4762] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:text-white">
-                <option class="text-center" disabled selected>Categories</option>
+              <select id="categories" @change="getCategory" class="bg-[#1f4762] border border-[#1f4762] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:text-white">
+                <option class="text-center text-white" disabled selected>Categories</option>
                   <option value="Furnitures">Furnitures</option>
                   <option value="Tiles">Tiles</option>
                   <option value="Appliances">Appliances</option>

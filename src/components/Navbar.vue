@@ -15,7 +15,7 @@
             <router-link class="transition duration-300 ease-in-out hover:text-[#153040]" to="/about-us">About Us</router-link>
           </ul> 
           <!-- Show this on mobile -->
-          <ul v-if="isMobile" class="flex flex-col lg:flex-row w-full lg:w-auto lg:items-start items-center mt-3 lg:mt-0 flex-wrap gap-5 lg:gap-10 text-xl">
+          <ul v-if="isMobile" class="flex flex-col lg:flex-row w-full lg:w-auto lg:items-start items-end mt-3 lg:mt-0 flex-wrap gap-5 lg:gap-10 text-xl">
             <router-link @click="isMobile = false" class="transition duration-300 ease-in-out hover:text-[#153040]" to="/">Home</router-link>
             <router-link @click="isMobile = false" class="transition duration-300 ease-in-out hover:text-[#153040]" to="/products/1/none">Products</router-link>
             <router-link @click="isMobile = false" class="transition duration-300 ease-in-out hover:text-[#153040]" :to="{ name: 'store' }">Store Locations</router-link>

@@ -1,7 +1,7 @@
 <template>
   <main class="flex justify-center top-0 items-center flex-col w-full">
     <div
-        class="w-full h-screen bg-[url('https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/347555804_2364762957064445_2284981828660216505_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeFENPT_8lUv3T0SdP5HaoqYJXtHXHtuz3Ale0dce27PcDk0stgKSIscOVKmrAmfavfwibIHH651Cv9cUmEM8Hh0&_nc_ohc=XrJcw1UUe18AX9LvCHF&_nc_ht=scontent.fmnl13-1.fna&oh=00_AfAoyp5OP-22hDVsw8V_FvoH03Y-yYQz9qoX53M_jdlftQ&oe=64783BEB')] bg-cover bg-center">
+        class="w-full h-screen bg-[url('./assets/main_img.jpg')] bg-cover bg-center">
         <div class="w-full h-full flex justify-center items-center backdrop-brightness-50 text-white">
               <div class="flex flex-col justify-center items-center gap-5">
                 <span class="text-4xl sm:text-[54px] text-center font-bold animate__animated animate__fadeInUp">Maquiling Builders Depot</span>

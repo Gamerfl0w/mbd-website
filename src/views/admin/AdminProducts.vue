@@ -264,7 +264,7 @@
   </body>
 </template>
 
-<script>
+<script lang="ts">
 import ProductService from '../../client/productService.js';
 
 export default {
@@ -353,7 +353,7 @@ export default {
         this.text = "Product has been deleted successfully."
         this.isLoading = true;
         await ProductService.deleteProduct(id);
-        this.products = await ProductService.getProducts()
+        this.products = await ProductService.getProducts("1", "none")
         this.isLoading = false;
         this.snackbar = true;
       },
