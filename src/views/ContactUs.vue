@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <Form @submit="createContact" class="p-5 grow">
+    <Form @submit="createInquiry" class="p-5 grow">
       <div class="flex flex-col justify-center gap-10">
         <div class="flex justify-center gap-5">
          <div class="w-full"> 
