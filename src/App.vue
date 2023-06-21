@@ -14,8 +14,6 @@ import 'animate.css';
 <template>
   <Navbar v-show="$route.name !== 'dashboard'" />
   <router-view v-show="$route.name !== 'dashboard'" />
-  <AdminNav v-show="$route.name == 'dashboard'">
-    <Dashboard />
-  </AdminNav>
+  <AdminNav v-show="$route.name == 'dashboard'" />
 
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <body class="animate__animated animate__slideInUp p-10 h-full bg-[#fda300]">
+  <body class="py-10 px-20 h-full bg-[#fda300]">
     <div class="absolute bottom-10 right-10">
         <v-btn @click="showAdd = true, name = '', price = ''" icon="mdi-plus" size="x-large"></v-btn>
     </div>
@@ -35,12 +35,12 @@
         <th class="flex items-center gap-3 px-6 py-4 font-normal text-gray-900">
           <div class="relative h-16 w-16 text-4xl bg-center bg-cover rounded-lg" :style="{ backgroundImage: 'url(' + '/uploads/' + product.image.filename + ')' }"></div>
           <div>
-            <div class="font-medium text-gray-700 text-2xl">{{ product.name }}</div>
+            <div class="font-medium text-xl">{{ product.name }}</div>
           </div>
         </th>
         <td class="px-6 py-4">
           <span
-            class="inline-flex items-center text-xl"
+            class="inline-flex items-center text-xl text-gray-700"
           >
             <span class="h-1.5 w-1.5 rounded-full"></span>
             {{ product.category }}
@@ -48,7 +48,7 @@
         </td>
         <td class="px-6 py-4">
           <span
-            class="inline-flex items-center text-xl font-semibold"
+            class="inline-flex items-center text-lg font-semibold"
           >
             <span class="h-1.5 w-1.5 rounded-full"></span>
             ₱{{ product.price }}
@@ -72,7 +72,7 @@
         </template>
         <template v-slot:default="{ isActive }">
           <v-card>
-            <v-toolbar color="red" title="Delete Product"></v-toolbar>
+            <v-toolbar class="text-white" color="#a72d25" title="Delete Product"></v-toolbar>
             <v-card-text class="text-center">
               <p class="text-xl">Are you sure you want to delete <br><span class="font-bold">{{ product.name }}</span>?</p>
               <p class="text-xl pa-10">This action is irreversible.</p>

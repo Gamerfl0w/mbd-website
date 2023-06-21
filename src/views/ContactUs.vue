@@ -30,24 +30,41 @@
       </div>
     </div>
 
-    <form class="p-5 grow">
+    <Form @submit="createContact" class="p-5 grow">
       <div class="flex flex-col justify-center gap-10">
         <div class="flex justify-center gap-5">
-          <input class="border-b-2 border-gray-300 w-full lg:text-xl p-3" type="text" name="" id="" placeholder="First Name" style="border-bottom: 1px solid black;">
-          <input class="border-b-2 border-gray-300 w-full lg:text-xl p-3" type="text" name="" id="" placeholder="Last Name" style="border-bottom: 1px solid black;">
+         <div class="w-full"> 
+            <Field v-model="firstName" :rules="validateFn" class="border-b-2 border-gray-300 w-full lg:text-xl p-3" name="firstName" type="firstName" placeholder="First Name" style="border-bottom: 1px solid black;" />
+            <p><ErrorMessage name="firstName" /></p>
+         </div>
+
+         <div class="w-full">
+            <Field v-model="lastName" :rules="validateLn" class="border-b-2 border-gray-300 w-full lg:text-xl p-3" name="lastName" type="lastName" placeholder="Last Name" style="border-bottom: 1px solid black;" />
+            <p><ErrorMessage name="lastName" /></p>
+         </div>
         </div>
 
         <div class="flex justify-center gap-5">
-          <input class="border-b-2 border-gray-300 w-full lg:text-xl p-3" type="text" name="" id="" placeholder="Email" style="border-bottom: 1px solid black;">
-          <input class="border-b-2 border-gray-300 w-full lg:text-xl p-3" type="text" name="" id="" placeholder="Phone" style="border-bottom: 1px solid black;">
+          <div class="w-full">
+            <Field v-model="email" :rules="validateEmail" class="border-b-2 border-gray-300 w-full lg:text-xl p-3" name="email" type="email" placeholder="Email" style="border-bottom: 1px solid black;" />
+           <p><ErrorMessage name="email" /></p>
+          </div>
+
+          <div class="w-full">
+            <Field v-model="phone" :rules="validatePhone" class="border-b-2 border-gray-300 w-full lg:text-xl p-3" name="phone" type="phone" placeholder="Phone Number" style="border-bottom: 1px solid black;" />
+            <p><ErrorMessage name="phone" /></p>
+          </div>
         </div>
 
-        <textarea class="border-2 border-gray-300 lg:text-xl p-3" name="" id="" cols="10" rows="7" placeholder="Enter Message...." style="border: 1px solid black;"></textarea>
+        <div class="w-full">
+          <Field as="textarea" v-model="message" :rules="validateMessage" class="border-2 w-full border-gray-300 lg:text-xl p-3" name="message" id="" cols="10" rows="7" placeholder="Enter Message...." style="border: 1px solid black;" />
+          <p><ErrorMessage name="message" /></p>
+        </div>
       </div>
 
-      <v-btn class="mt-3 w-full p-2 text-white rounded-3xl" color="#fda300">Send</v-btn>
-    </form>
-    </div>
+      <v-btn type="submit" class="mt-3 w-full p-2 text-white rounded-3xl" color="#fda300">Send</v-btn>
+    </Form>
+  </div>
 
   </div>
   </main>
@@ -55,7 +72,88 @@
 </template>
 
 <script>
+import InquiryService from '../client/inquiryService';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+
 export default {
+  components: {
+    Form,
+    Field,
+    ErrorMessage
+  },
+
+  data(){
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      message: '',
+    }
+  },
+
+  methods: {
+    async createInquiry(){
+      await InquiryService.insertInquiry(this.firstName, this.lastName, this.email, this.phone, this.message);
+
+      },
+
+      validateFn(value) {
+      // if the field is empty
+      if (!value) {
+        return 'This field is required';
+      }
+      if (value.length < 3) {
+        return 'First name must be longer than 2 characters';
+      }
+      // All is good
+      return true;
+    },
+
+    validateLn(ln) {
+      if (!ln) {
+        return 'This field is required';
+      }
+      if (ln.length < 3) {
+        return 'Last name must be longer than 2 characters';
+      }
+      return true;
+    },
+
+    validateEmail(value) {
+      if (!value) {
+        return 'This field is required';
+      }
+      // if the field is not a valid email
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(value)) {
+        return 'This field must be a valid email';
+      }
+      return true;
+    },
+
+    validatePhone(value) {
+      if (!value) {
+        return 'This field is required';
+      }
+      const regex = /^(09|\+639)\d{9}$/;
+      if (!regex.test(value)) {
+        return 'This field must be a valid phone number (Ex. 09 or +63)';
+      }
+      return true;
+    },
+
+    validateMessage(value) {
+      if (!value) {
+        return 'This field is required';
+      }
+      if (value.length < 10) {
+        return 'Message must be longer than 10 characters';
+      }
+      return true;
+    },
+
+  },
 
 }
 </script>
